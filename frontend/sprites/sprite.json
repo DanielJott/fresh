@@ -1,0 +1,16 @@
+{
+  "bench": {
+    "height": 16,
+    "pixelRatio": 1,
+    "width": 16,
+    "x": 0,
+    "y": 0
+  },
+  "water": {
+    "height": 16,
+    "pixelRatio": 1,
+    "width": 16,
+    "x": 16,
+    "y": 0
+  }
+}

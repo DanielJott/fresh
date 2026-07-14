@@ -1,0 +1,53 @@
+# Stage 1: Build environment with pixi
+FROM ghcr.io/prefix-dev/pixi:0.72.2-bookworm-slim AS build
+
+WORKDIR /app
+
+# Copy only dependency files first (better layer caching)
+COPY pixi.toml ./
+# Copy lock file if exists (create with: pixi lock)
+COPY pixi.lock* ./
+
+# Install ALL dependencies (no -e prod since you don't have environments)
+RUN pixi install --locked
+
+# Copy the rest of the code
+COPY data_processor.py ./
+COPY data/ ./data/
+
+# Create output directory
+RUN mkdir -p /app/output/pmtiles
+
+# Stage 2: Production runtime
+FROM gcr.io/distroless/base-debian12:debug AS production
+
+WORKDIR /app
+
+# Copy pixi environment (default environment since no -e flag)
+COPY --from=build /app/.pixi/envs/default /app/.pixi/envs/default
+COPY --from=build /app/data_processor.py ./
+COPY --from=build /app/data/ ./data/
+COPY --from=build /app/output /app/output
+
+
+# Set up environment - use default environment path
+ENV PATH=/app/.pixi/envs/default/bin:$PATH
+ENV CONDA_PREFIX=/app/.pixi/envs/default
+ENV PMTILES_OUTPUT_PATH=/app/output/pmtiles
+
+# For pmtiles tools
+#RUN apt-get update && apt-get install -y --no-install-recommends \
+#    curl \
+#    ca-certificates \
+#    && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user for security
+#RUN groupadd -r appuser && useradd -r -g appuser appuser \
+#    && chown -R appuser:appuser /app
+#USER appuser
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD [ "python", "--version" ]
+
+ENTRYPOINT ["python", "data_processor.py"]

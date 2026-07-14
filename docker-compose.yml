@@ -1,0 +1,36 @@
+services:
+  # --- Processing Service (optional) ---
+  processor:
+    image: danieljott/fresh:processor-test
+    #build:
+       #context: ./backend
+        #dockerfile: Dockerfile.backend
+    volumes:
+      - pmtiles_data:/app/output/pmtiles
+      - umep_data:/app/umep/output/
+    environment:
+      - PMTILES_OUTPUT_PATH=/app/output/pmtiles
+    profiles: ["process"]
+    restart: "no"
+
+  # --- Long-running Services ---
+  martin:
+    image: ghcr.io/maplibre/martin:latest
+    volumes:
+      - pmtiles_data:/files:ro
+    command: /files
+    restart: unless-stopped
+
+  frontend:
+    image: danieljott/fresh:frontend-latest
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_MAP_SPRITE_PATH=/sprites/sprite
+    depends_on:
+      - martin
+    restart: unless-stopped
+
+volumes:
+  pmtiles_data:
+  umep_data:

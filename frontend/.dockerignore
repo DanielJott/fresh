@@ -1,0 +1,20 @@
+# .dockerignore for frontend
+node_modules
+npm-debug.log
+dist
+build
+.DS_Store
+.git
+.gitignore
+.env.local
+.env.development
+.env.test
+.dockerignore
+Dockerfile
+docker-compose*.yml
+README.md
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo

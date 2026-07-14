@@ -1,0 +1,43 @@
+[workspace]
+name = "geo-processor"
+version = "0.1.0"
+description = "Geospatial data processor for PMTiles generation"
+authors = ["Your Name <email@example.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[dependencies]
+python = ">=3.11,<3.14"
+# Geospatial & data science
+geopandas = ">=1.0.1"
+rasterio = ">=1.4.1"
+rioxarray = ">=0.15.0"
+shapely = ">=2.0.0,<2.1.dev0"
+pyproj = ">=3.7.0"
+xarray = ">=2024.7.0"
+# Visualization & utilities
+matplotlib = ">=3.9.2"
+tqdm = ">=4.67.1"
+scipy = ">=1.13.1"
+numpy = ">=1.26.0"
+pandas = ">=2.2.3"
+# Specialized tools
+pvlib = ">=0.11.1"
+osmnx = ">=2.0.6,<3"
+tippecanoe = "*"
+# Web scraping
+beautifulsoup4 = "*"
+lxml = ">=6.0.2,<7"
+# Development (optional, can remove if not needed)
+ipykernel = ">=6.29.5"
+# Dependencies for SOLWEIG-GPU
+pillow = ">=9.0.0"
+
+[pypi-dependencies]
+# Python-only packages (not in Conda-forge or need specific versions)
+rio-pmtiles = "*"
+solweig = ">=0.1.0b75"
+
+[tasks]
+process = "python data_processor.py"
+dev = "python -m ipykernel --version"  # Optional dev task
