@@ -1,5 +1,7 @@
 # This is the README for the Thermal Comfort Visualisation Application
 
+![alt text](https://github.com/DanielJott/fresh/blob/main/images/web_ui.png "WEB UI")
+
 The GitHub repository is not required if you chose to run the application in a Docker Container
 
 # Download the docker-compose.yml file
