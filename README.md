@@ -15,7 +15,7 @@ The GitHub repository is not required if you chose to run the application in a D
 - Copy the URL from the GET request for the document (see screenshot)
 - Paste this URL in the terminal input (might need to use Ctrl+Shift+v)
 
-![alt text](https://github.com/test.png "shinyweatherdata.com")
+![alt text](https://github.com/DanielJott/fresh/blob/main/images/shinyweather.png "shinyweatherdata.com")
 
 # Process data (runs once, doesn't restart automatically)
 docker compose run process
